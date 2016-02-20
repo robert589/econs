@@ -1,0 +1,1 @@
+Sorry, You could not participate since you dont have any friend choosing you in the first stage
