@@ -80,4 +80,4 @@
 
 <?= Html::endForm() ?>
 
-<?php	$this->registerJsFile(Yii::$app->request->baseUrl.'/js/parttwo-stage2.js'); ?>
+<?php	$this->registerJsFile(Yii::$app->request->baseUrl.'/frontend/web/js/parttwo-stage2.js'); ?>

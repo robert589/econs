@@ -2,6 +2,11 @@
 
 namespace frontend\controllers;
 
+use common\models\Character;
+use common\models\Happiness;
+use common\models\Preference;
+use common\models\Relation;
+use common\models\UserInfo;
 use frontend\models\PartOne5Form;
 use Yii;
 use yii\web\Controller;
@@ -33,26 +38,26 @@ class PartoneController extends Controller{
         $current_status = $user->getCurrentStatus();
 
         if($current_status == PARTONE_ONE_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/instruction');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/instruction');
         }
         else if($current_status == PARTONE_TWO_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/two');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/two');
 
         }
         else if($current_status == PARTONE_THREE_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/three');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/three');
 
         }
         else if($current_status == PARTONE_FOUR_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/four');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/four');
 
         }
         else if($current_status == PARTONE_FIVE_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/five');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/five');
 
         }
         else{
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/finish');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/finish');
         }
     }
 
@@ -80,7 +85,7 @@ class PartoneController extends Controller{
                 $user->setStatus(1);
 
             }
-             return $this->redirect(Yii::getAlias('@base-url'). '/partone/two');
+             return $this->redirect(Yii::$app->request->baseUrl. '/partone/two');
         }
 
         if($model->hasErrors()){
@@ -111,7 +116,7 @@ class PartoneController extends Controller{
                 if($user->getCurrentStatus() <= 1 ){
                     $user->setStatus(2);
                 }
-                return $this->redirect(Yii::getAlias('@base-url'). '/partone/three');
+                return $this->redirect(Yii::$app->request->baseUrl. '/partone/three');
 
             }
 
@@ -138,7 +143,7 @@ class PartoneController extends Controller{
             if($user->getCurrentStatus() <= 2 ){
                 $user->setStatus(3);
             }
-            return $this->redirect(Yii::getAlias('@base-url'). '/partone/four');
+            return $this->redirect(Yii::$app->request->baseUrl. '/partone/four');
         }
         return $this->render('three', ['model' => $model]);
 
@@ -190,7 +195,24 @@ class PartoneController extends Controller{
     }
 
     public function actionFinish(){
-        return $this->render('finish');
+        $user_id = Yii::$app->getUser()->id;
+
+        $user_info = UserInfo::find()->where(['id' => $user_id])->one();
+
+        $user_character = Character::find()->where(['id' => $user_id])->one();
+
+        $user_happiness = Happiness::find()->where(['id' => $user_id])->one();
+
+        $user_preference = Preference::find()->where(['user_id' => $user_id])->one();
+
+        $relations = Relation::getAllFriendsByUserId($user_id);
+
+
+        return $this->render('finish', ['user_info' => $user_info,
+                                        'user_character' => $user_character,
+                                        'user_happiness' => $user_happiness,
+                                        'user_preference' => $user_preference,
+                                        'relations' => $relations]);
     }
 
     /**
@@ -208,22 +230,22 @@ class PartoneController extends Controller{
         $current_stage = CurrentStage::getCurrentStage();
 
         if($current_stage == 1){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/index');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/index');
         }
         else if($current_stage == 2){
-            return $this->redirect(Yii::getAlias('@base-url') . '/parttwo/stage1inst');
+            return $this->redirect(Yii::$app->request->baseUrl . '/parttwo/stage1inst');
         }
         else if($current_stage == 3){
-            return $this->redirect(Yii::getAlias('@base-url') . '/parttwo/stage2inst');
+            return $this->redirect(Yii::$app->request->baseUrl . '/parttwo/stage2inst');
         }
         else if($current_stage == 4){
-            return $this->redirect(Yii::getAlias('@base-url') . '/report/index');
+            return $this->redirect(Yii::$app->request->baseUrl . '/report/index');
         }
     }
 
     private function firstAction($page){
         if (\Yii::$app->user->isGuest) {
-            return $this->redirect(Yii::getAlias('@base-url') . '/site/login');
+            return $this->redirect(Yii::$app->request->baseUrl . '/site/login');
         }
 
         //get the current stage

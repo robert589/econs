@@ -79,7 +79,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if($model->load(Yii::$app->request->post()) && $model->login()){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/go-to-survey');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/go-to-survey');
         }
         else{
              return $this->render('login', [
@@ -102,7 +102,7 @@ class SiteController extends Controller
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(Yii::getAlias('@base-url'). '/partone/go-to-survey');
+            return $this->redirect(Yii::$app->request->baseUrl. '/partone/go-to-survey');
         }
         else {
             return $this->render('login', [
@@ -120,7 +120,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->redirect(Yii::getAlias('@base-url'));
+        return $this->redirect(Yii::$app->request->baseUrl);
     }
 
     /**

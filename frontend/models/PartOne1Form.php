@@ -2,8 +2,8 @@
 
 namespace frontend\models;
 
-use frontend\models\UserInfo;
-use frontend\models\User;
+use common\models\UserInfo;
+use common\models\User;
 
 use yii\base\Model;
 use Yii;

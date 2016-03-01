@@ -153,4 +153,4 @@
 		<?php Pjax::end(); ?>
 
 			
-<?php	$this->registerJsFile('/econs/frontend/web/js/partone-two.js');?>
+<?php	$this->registerJsFile(Yii::$app->request->baseUrl. '/frontend/web/js/partone-two.js');?>

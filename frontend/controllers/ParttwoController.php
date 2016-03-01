@@ -8,10 +8,11 @@ use yii\web\Controller;
 use frontend\models\PartTwo1Form;
 use frontend\models\Stage1Form;
 use frontend\models\stage2Form;
-use frontend\models\StageOne;
+use common\models\StageOne;
 use common\models\User;
-use frontend\models\StageTwo;
-use frontend\models\ActualDiceValue;
+use common\models\StageTwo;
+use common\models\ActualDiceValue;
+
 class ParttwoController extends Controller{
     const PARTTWO_STAGE1_STATUS = 5;
     const PARTTWO_STAGE2_STATUS = 6;
@@ -22,18 +23,18 @@ class ParttwoController extends Controller{
         $current_status = $user->getCurrentStatus();
 
         if($current_status < self::PARTTWO_STAGE1_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/partone/index');
+            return $this->redirect(Yii::$app->request->baseUrl . '/partone/index');
         }
         else if($current_status == self::PARTTWO_STAGE1_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/parttwo/stage1inst');
+            return $this->redirect(Yii::$app->request->baseUrl . '/parttwo/stage1inst');
 
         }
         else if($current_status == self::PARTTWO_STAGE2_STATUS){
-            return $this->redirect(Yii::getAlias('@base-url') . '/parttwo/stage2inst');
+            return $this->redirect(Yii::$app->request->baseUrl. '/parttwo/stage2inst');
 
         }
         else{
-            return $this->redirect(Yii::getAlias('@base-url') . '/parttwo/finish');
+            return $this->redirect(Yii::$app->request->baseUrl . '/parttwo/finish');
         }
 
     }
@@ -59,13 +60,12 @@ class ParttwoController extends Controller{
 
     public function actionStage1inst(){
         $this->firstAction(self::PARTTWO_STAGE1_STATUS);
-        $actualDiceValue = new ActualDiceValue();
-        $actualDiceValue->user_id = \Yii::$app->user->getId();
-        if(!$actualDiceValue->checkExist()){
+        $user_id = \Yii::$app->user->getId();
+        if(ActualDiceValue::checkExist($user_id)){
             $diceValue = 0;
         }
         else{
-            if( !($diceValue = $actualDiceValue->getDiceValue())){
+            if( !($diceValue = ActualDiceValue::getDiceValue($user_id))){
                 $diceValue = 0;
             }
         }
@@ -267,7 +267,7 @@ class ParttwoController extends Controller{
     {
         //Check eligibility
         if (\Yii::$app->user->isGuest) {
-            return $this->redirect(Yii::getAlias('@base-url') . '/site/login');
+            return $this->redirect(Yii::$app->request->baseUrl . '/site/login');
         }
 
         if( $status == self::PARTTWO_STAGE1_STATUS){

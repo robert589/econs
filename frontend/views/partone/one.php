@@ -45,7 +45,7 @@ $this->title = 'Survey | First Part';
 					<div class="col-md-4">
 						<!-- Gender-->
 						<?= $form->field($model, 'gender')->widget(Select2::className(), [
-							'data' => ['male' => 'Male', 'female' => 'Female'],
+							'data' => ['Male' => 'Male', 'Female' => 'Female'],
 							'options' => ['placeholder' => 'Select your gender ...'],
 							'pluginOptions' => [
 								'allowClear' => true
@@ -59,7 +59,7 @@ $this->title = 'Survey | First Part';
 					<!-- Course -->
 					<div class="col-md-4">
 						<?= $form->field($model, 'course')->widget(Select2::className(), [
-							'data' => ['economics' => 'Economics', 'MAEC' => 'maec'],
+							'data' => ['Economics' => 'Economics', 'MAEC' => 'Mathematics and Economics'],
 							'options' => ['placeholder' => 'Select your course ...'],
 							'pluginOptions' => [
 								'allowClear' => true
@@ -70,7 +70,7 @@ $this->title = 'Survey | First Part';
 					<div class="col-md-4">
 						<!-- Year of study -->
 						<?= $form->field($model, 'year_of_study')->widget(Select2::className(), [
-							'data' => ['1' => 'year 1', '2' => 'year 2', '3' => 'year 3', '4' => 'year 4'],
+							'data' => ['1' => 'Year 1', '2' => 'Year 2', '3' => 'Year 3', '4' => 'Year 4'],
 							'options' => ['placeholder' => 'Select your year of study ...'],
 							'pluginOptions' => [
 								'allowClear' => true
@@ -130,10 +130,10 @@ $this->title = 'Survey | First Part';
 							<!-- User money received-->
 							<label> On average, how much do you spend a week?(in SGD)</label>
 							<?= $form->field($model, 'user_money_received')->widget(Select2::className(), [
-								'data' => ['lt_10' => 'less than 10',
-									'10_19' => '10 - 19',
-									'20_29' => '20 - 29',
-									'gt_30' => 'greater than 30'],
+								'data' => ['less than 10' => 'less than 10',
+									'10 - 19' => '10 - 19',
+									'20 - 29' => '20 - 29',
+									' > 30' => 'greater than 30'],
 								'options' => ['placeholder' => 'Select your choice ...'],
 								'pluginOptions' => [
 									'allowClear' => true
@@ -203,7 +203,7 @@ $this->title = 'Survey | First Part';
 								'pluginOptions' => [
 									'allowClear' => true
 								],
-							]); ?>
+							])->label("Do you have any volunteer activity?"); ?>
 						</div>
 						<div class="col-md-5">
 							<!--Favourite Hobbies-->
@@ -348,6 +348,6 @@ $this->title = 'Survey | First Part';
 	
 
 <?php
-	$this->registerJsFile('/econs/frontend/web/js/partone.js');
-	$this->registerJsFile('/econs/frontend/web/js/partone-one.js');
+	$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/partone.js');
+	$this->registerJsFile(Yii::$app->request->baseUrl. '/frontend/web/js/partone-one.js');
  ?>

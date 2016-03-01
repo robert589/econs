@@ -144,5 +144,5 @@ if(isset($model->name)){
 <?php ActiveForm::end()?>
 
 <?php
-$this->registerJsFile('/econs/frontend/web/js/parttwo-stage1.js');
+$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/parttwo-stage1.js');
 ?>

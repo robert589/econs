@@ -1,32 +1,29 @@
 <?php
 namespace backend\controllers;
 
+use backend\models\EmailForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use common\models\LoginForm;
 use common\models\User;
-use frontend\models\UserInfo;
-use frontend\models\Relation;
-use frontend\models\Happiness;
-use frontend\models\StageOne;
-use frontend\models\StageTwo;
+use common\models\UserInfo;
+use common\models\Relation;
+use common\models\Happiness;
+use common\models\StageOne;
+use common\models\StageTwo;
 use backend\models\CurrentStage;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
-use frontend\models\Character;
+use common\models\Character;
 use backend\models\RegisterNewUserForm;
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
-    public function beforeAction($action) {
-        $this->enableCsrfValidation = false;
-        return parent::beforeAction($action);
-    }
     /**
      * @inheritdoc
      */
@@ -140,6 +137,7 @@ class SiteController extends Controller
         }
     }
     public function actionStudentInfo(){
+        $this->checkAdmin();
     // build an ActiveDataProvider with an empty query and a pagination with 35 items for page
         $provider = new ActiveDataProvider([
             'query' => UserInfo::find(),
@@ -152,6 +150,7 @@ class SiteController extends Controller
     }
 
     public function actionStudentRelation(){
+        $this->checkAdmin();
          $provider = new SqlDataProvider([
             'sql' => Relation::retrieveAllBySql(),  
             'totalCount' => Relation::countRetrieveAll(),
@@ -165,6 +164,7 @@ class SiteController extends Controller
     }
 
     public function actionStudentCharacter(){
+        $this->checkAdmin();
          $provider = new SqlDataProvider([
             'sql' => Character::retrieveAllBySql(),  
             'totalCount' => Character::countRetrieveAll(),
@@ -178,6 +178,7 @@ class SiteController extends Controller
     }
 
      public function actionStudentHappiness(){
+         $this->checkAdmin();
          $provider = new SqlDataProvider([
             'sql' => Happiness::retrieveAllBySql(),  
             'totalCount' => Happiness::countRetrieveAll(),
@@ -191,6 +192,7 @@ class SiteController extends Controller
     }
 
      public function actionStageone(){
+         $this->checkAdmin();
          $provider = new SqlDataProvider([
             'sql' => StageOne::retrieveAllBySql(),  
             'totalCount' => StageOne::countRetrieveAll(),
@@ -208,6 +210,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionStagetwo(){
+        $this->checkAdmin();
          $provider = new SqlDataProvider([
             'sql' => StageTwo::retrieveAllBySql(),  
             'totalCount' => StageTwo::countRetrieveAll(),
@@ -221,35 +224,52 @@ class SiteController extends Controller
     }
 
     public function actionEmail(){
-        return $this->render('email');
+        $this->checkAdmin();
+        return $this->render('email', ['email_form' => new EmailForm(), 'email_form1' => new EmailForm()]);
     }
 
     public function actionSendone(){
-        return $this->render('email');
+        $email_form  = new EmailForm();
+
+        if($email_form->load(Yii::$app->request->post())){
+            if($email_form->sendOne()){
+                return $this->render('email', ['email_form1' => $email_form, 'email_form' => new EmailForm() ]);
+
+            }
+            else{
+                return $this->render('email', ['email_form1' => $email_form, 'email_form' => new EmailForm() ]);
+            }
+
+
+        }
+        else{
+            return $this->render('email', ['email_Form' => new EmailForm()]);
+        }
     }
 
     public function actionSendall(){
+        $email_form  = new EmailForm();
 
-        $messages = [];
-    
-        $users = User::retrieveAll();
+        if($email_form->load(Yii::$app->request->post())){
+           if($email_form->sendMail()){
+               $email_form->sendMail();
 
-        foreach ($users as $user) {
+               return $this->render('email', ['email_form' => $email_form, 'email_form1' => new EmailForm()]);
+           }
+           else{
+               return $this->render('email', ['email_form' => $email_form, 'email_form1' => new EmailForm()]);
 
-            $password = User::decryptIt($user['password_hash']);
-            $email = $user['email'];
-            $messages[] = Yii::$app->mailer->compose()
-                ->setTo($email)
-                ->setFrom('RLIMANTO001@e.ntu.edu.sg')
-                ->setSubject('Paid Economy Survey')
-                ->setTextBody('Your Username is: ' . $user['username']. ', Your password is: '. $password);
+           }
+
+
         }
-        Yii::$app->mailer->sendMultiple($messages);
-
-        return $this->render('email');
+        else{
+            return $this->render('email', ['email_form' => $email_form, 'email_form1' => new EmailForm()]);
+        }
     }
 
     public function actionStudentRelationMatrix(){
+        $this->checkAdmin();
         $matrix = Relation::generate2DMatrix();
         $ids = Relation::getAllParticipants();
         $ids = $this->getIdValues($ids);
@@ -258,6 +278,8 @@ class SiteController extends Controller
     }
 
     public function actionStageoneMatrix(){
+
+        $this->checkAdmin();
         $matrix = StageOne::generate2DMatrix();
         $ids = StageOne::getAllParticipants();
         $ids = $this->getIdValues($ids);
@@ -412,6 +434,10 @@ class SiteController extends Controller
 
     }
 
+    public function actionProhibited(){
+        return $this->render('prohibited');
+    }
+
     public function actionHappinessExcel(){
         $query  =Happiness::find()->all();
 
@@ -496,6 +522,8 @@ class SiteController extends Controller
     }
 
     public function actionStageoneExcel(){
+        $this->checkAdmin();
+
         $matrix = StageOne::generate2DMatrix();
         $ids = StageOne::getAllParticipants();
         $ids = $this->getIdValues($ids);
@@ -532,7 +560,12 @@ class SiteController extends Controller
 
     }
 
-    
+    private function checkAdmin(){
+        if(key(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId())) != 'admin') {
+            return $this->redirect(Yii::$app->request->baseUrl . '/site/prohibited');
+        }
+
+    }
 
     private function getIdValues($ids){
         $idonly  = array();

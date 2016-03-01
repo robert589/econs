@@ -7,7 +7,6 @@
     'dataProvider' => $provider,
     'columns' => [
         'id',
-        'name',
         'gender',
         'course',
         'year_of_birth',
@@ -26,7 +25,10 @@
         'other_hobbies',
         'user_cca',
         'user_first_language',
-        'user_hall'
+        'user_hall',
+        'hall_number',
+        'trust_choice'
+
         // ...
     ],
 ]) ?>

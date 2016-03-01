@@ -2,19 +2,9 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
-use frontend\models\PartOne1Form;
-use frontend\models\StageOne;
+use common\models\StageOne;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use frontend\models\Relation;
+use common\models\Relation;
 use common\models\User;
 /**
  * Site controller
@@ -55,7 +45,7 @@ class ReportController extends Controller
                                                 'total_stage_one_payoff' => $total_stage_one_payoff]);
         }
         else{
-            return $this->redirect(Yii::getAlias('@base-url') . '/site/login');
+            return $this->redirect(Yii::$app->request->baseUrl . '/site/login');
         }
 
 

@@ -3,6 +3,8 @@ namespace frontend\models;
 
 use yii\base\Model;
 use common\models\User;
+use common\models\Relation;
+use common\models\StageOne;
 use Yii;
 
 define("FIRST_DEGREE", 'FIRST_DEGREE');

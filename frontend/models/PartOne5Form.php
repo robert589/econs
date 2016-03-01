@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use yii\base\model;
-use frontend\models\Happiness;
+use common\models\Happiness;
 use yii;
 
 class PartOne5Form extends Model{

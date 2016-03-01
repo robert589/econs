@@ -22,6 +22,10 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
+        'request'=>[
+            'class' => 'common\components\Request',
+            'web'=> '/frontend/web'
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

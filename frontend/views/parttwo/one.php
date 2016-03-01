@@ -42,4 +42,4 @@ $this->title = "Security Question";
 	</div>
 </div>
 
-<?php $this->registerJsFile(\Yii::$app->request->baseUrl .  '/js/parttwo-one.js');
+<?php $this->registerJsFile(\Yii::$app->request->baseUrl .  '/frontend/web/js/parttwo-one.js');

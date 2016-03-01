@@ -46,11 +46,14 @@ return [
             ],
         ],
         'request' => [
-            'csrfParam' => '_backendCSRF',
-            'csrfCookie' => [
-                'httpOnly' => true,
-                'path' => '/admin',
-            ],
+            'class' => 'common\components\Request',
+            'web'=> '/backend/web',
+            'adminUrl' => '/admin',
+
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

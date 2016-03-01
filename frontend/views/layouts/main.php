@@ -33,16 +33,16 @@ $item = "home";
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Economy Survey',
-        'brandUrl' => Yii::getAlias('@base-url'),
+        'brandLabel' => 'Economic Survey',
+        'brandUrl' => Yii::$app->request->baseUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
 
     $menuItems = [
-        ['label' => 'Current Stage', 'url' =>  Yii::$app->homeUrl . '../../partone/go-to-survey'],
-        ['label' => 'Report', 'url' =>  Yii::$app->homeUrl . '../../report'],
+        ['label' => 'Current Stage', 'url' =>  Yii::$app->request->baseUrl . '/partone/go-to-survey'],
+        ['label' => 'Report', 'url' =>  Yii::$app->request->baseUrl . '/report'],
 
     ];
 
@@ -50,39 +50,39 @@ $item = "home";
                     'items' => [
                          [
                              'label' => 'Personal Information',
-                             'url' => Yii::getAlias('@base-url') . '/partone/one'
+                             'url' => Yii::$app->request->baseUrl . '/partone/one'
                          ],
                         [
                             'label' => 'Friendship Survey',
-                            'url' => Yii::getAlias('@base-url') . '/partone/two'
+                            'url' => Yii::$app->request->baseUrl . '/partone/two'
                         ],
                         [
                             'label' =>'Personality',
-                            'url' => Yii::getAlias('@base-url') . '/partone/three'
+                            'url' => Yii::$app->request->baseUrl . '/partone/three'
                         ],
                         [
                             'label' =>'Lifestyle',
-                            'url' => Yii::getAlias('@base-url') . '/partone/four'
+                            'url' => Yii::$app->request->baseUrl . '/partone/four'
                         ],
                         [
                             'label' =>'Holt and Laury Survey',
-                            'url' => Yii::getAlias('@base-url') . '/partone/five'
+                            'url' => Yii::$app->request->baseUrl . '/partone/five'
                         ],
                         '<li class="divider"></li>',
 
                         [
                             'label' =>'Game 1 Play',
-                            'url' => Yii::getAlias('@base-url') . '/parttwo/stage1'
+                            'url' => Yii::$app->request->baseUrl . '/parttwo/stage1'
                         ],
                         [
                             'label' =>'Game 2 Play',
-                            'url' => Yii::getAlias('@base-url') . '/parttwo/stage2'
+                            'url' => Yii::$app->request->baseUrl . '/parttwo/stage2'
                         ],
                     ]
     ];
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => Yii::getAlias('@base-url') . '/site/login'];
+        $menuItems[] = ['label' => 'Login', 'url' => Yii::$app->request->baseUrl . '/site/login'];
     } else {
         $menuItems[] = [
             'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -108,13 +108,6 @@ $item = "home";
     </div>
 </div>
 
-<footer class="footer">
-        <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php
     $this->endBody();

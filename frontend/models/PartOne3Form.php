@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use yii\base\model;
-use frontend\models\Character;
+use common\models\Character;
 use yii;
 
 class PartOne3Form extends Model{

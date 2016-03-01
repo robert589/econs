@@ -62,7 +62,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public static function retrieveAll(){
-        return static::find()->all();
+        return self::find()->where(['status' => self::STATUS_ACTIVE])->orderBy('id')->all();
     }
 
     /**
@@ -303,4 +303,5 @@ class User extends ActiveRecord implements IdentityInterface
           }
      
     }
+
 }
