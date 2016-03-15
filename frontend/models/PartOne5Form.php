@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use yii\base\model;
 use common\models\Happiness;
+use common\models\Preference;
 use yii;
 
 class PartOne5Form extends Model{

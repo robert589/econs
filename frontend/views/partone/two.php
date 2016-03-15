@@ -13,7 +13,7 @@
 
 		$this->title = 'Survey | Second Part';
 
-		$this->registerJsFile('/econs/frontend/web/js/jquery.js');
+		$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');
 
 		function addRelationForm($form, $item, $i, $size, $data){
 

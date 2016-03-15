@@ -20,15 +20,14 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 
-DEFINE('PARTONE_ONE_STATUS', 0);
-DEFINE('PARTONE_TWO_STATUS', 1);
-DEFINE('PARTONE_THREE_STATUS',2);
-DEFINE('PARTONE_FOUR_STATUS', 3);
-DEFINE('PARTONE_FIVE_STATUS', 4);
-
 
 class PartoneController extends Controller{
 
+    const PARTONE_ONE_STATUS = 0;
+    const PARTONE_TWO_STATUS = 1;
+    const PARTONE_THREE_STATUS = 2;
+    const PARTONE_FOUR_STATUS = 3;
+    const PARTONE_FIVE_STATUS = 4;
     /**
      * Goto survey index
      * @return \yii\web\Response
@@ -37,22 +36,22 @@ class PartoneController extends Controller{
         $user  = new User();
         $current_status = $user->getCurrentStatus();
 
-        if($current_status == PARTONE_ONE_STATUS){
+        if($current_status == self::PARTONE_ONE_STATUS){
             return $this->redirect(Yii::$app->request->baseUrl . '/partone/instruction');
         }
-        else if($current_status == PARTONE_TWO_STATUS){
+        else if($current_status == self::PARTONE_TWO_STATUS){
             return $this->redirect(Yii::$app->request->baseUrl . '/partone/two');
 
         }
-        else if($current_status == PARTONE_THREE_STATUS){
+        else if($current_status == self::PARTONE_THREE_STATUS){
             return $this->redirect(Yii::$app->request->baseUrl . '/partone/three');
 
         }
-        else if($current_status == PARTONE_FOUR_STATUS){
+        else if($current_status == self::PARTONE_FOUR_STATUS){
             return $this->redirect(Yii::$app->request->baseUrl . '/partone/four');
 
         }
-        else if($current_status == PARTONE_FIVE_STATUS){
+        else if($current_status == self::PARTONE_FIVE_STATUS){
             return $this->redirect(Yii::$app->request->baseUrl . '/partone/five');
 
         }
@@ -72,7 +71,7 @@ class PartoneController extends Controller{
      */
     public function actionOne(){
         //Check eligibility
-        $this->firstAction(PARTONE_ONE_STATUS);
+        $this->firstAction(self::PARTONE_ONE_STATUS);
 
         $user = new User();
 
@@ -82,7 +81,7 @@ class PartoneController extends Controller{
 
         if($model->load(Yii::$app->request->post()) && $model->store()){
             if($user->getCurrentStatus() <= 0 ){
-                $user->setStatus(1);
+                $user->setStatus(PartoneController::PARTONE_TWO_STATUS);
 
             }
              return $this->redirect(Yii::$app->request->baseUrl. '/partone/two');
@@ -114,7 +113,7 @@ class PartoneController extends Controller{
 
             if($model->store()){
                 if($user->getCurrentStatus() <= 1 ){
-                    $user->setStatus(2);
+                    $user->setStatus(self::PARTONE_THREE_STATUS);
                 }
                 return $this->redirect(Yii::$app->request->baseUrl. '/partone/three');
 
@@ -141,10 +140,16 @@ class PartoneController extends Controller{
 
         if($model->load(Yii::$app->request->post()) && $model->store()){
             if($user->getCurrentStatus() <= 2 ){
-                $user->setStatus(3);
+                $user->setStatus(self::PARTONE_FOUR_STATUS);
             }
             return $this->redirect(Yii::$app->request->baseUrl. '/partone/four');
         }
+        else{
+            if($model->hasErrors()){
+                Yii::$app->end(print_r($model->getErrors()));
+            }
+        }
+
         return $this->render('three', ['model' => $model]);
 
     }
@@ -162,7 +167,7 @@ class PartoneController extends Controller{
 
         if($model->load(Yii::$app->request->post()) && $model->store()){
             if($user->getCurrentStatus() <= 3 ){
-                $user->setStatus(4);
+                $user->setStatus(self::PARTONE_FIVE_STATUS);
             }
             return $this->redirect('five');
 
@@ -184,9 +189,16 @@ class PartoneController extends Controller{
         if($model->load(Yii::$app->request->post()) && $model->validate()){
             if($model->store()){
                 if($user->getCurrentStatus() <= 4){
-                    $user->setStatus(ParttwoController::PARTTWO_ONE_STATUS);
+                    $user->setStatus(ParttwoController::PARTTWO_STAGE1_STATUS);
                 }
-                return $this->redirect('index');
+                return $this->redirect('finish');
+            }
+        }
+        else{
+
+            
+            if($model->hasErrors()){
+                Yii::$app->end(print_r($model->getErrors()));
             }
         }
 

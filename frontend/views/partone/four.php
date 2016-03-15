@@ -4,6 +4,8 @@ use yii\bootstrap\ActiveForm;
 	use yii\helpers\Html;
 
 $this->title = 'Survey | Fourth Part';
+$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');
+
 ?>
 <div class="col-md-12" id="containerer">
 

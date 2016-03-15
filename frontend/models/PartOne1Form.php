@@ -54,6 +54,10 @@ class PartOne1Form extends Model{
 			[['user_cca', 'user_prior_school'], 'string'],
 			//Gpa is a double from 0 to 5
 			['your_cgpa', 'double', 'max' => 5, 'min' => 0],
+			//num _of sibling, user_height, user_weight must be more than or equal to 0
+			['num_of_sibling', 'integer', 'min' => 0],
+			['user_height', 'integer', 'min' => 0],
+			['user_weight', 'integer', 'min' => 0],
 			//All fields are string
 			['trust_choice', 'string'],
 

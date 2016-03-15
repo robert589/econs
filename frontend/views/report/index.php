@@ -1,6 +1,6 @@
 <?php
 
-
+    $this->title = "Report";
 ?>
 
 <div class="col-md-6 col-md-offset-3" id="containerer">

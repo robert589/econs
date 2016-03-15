@@ -3,15 +3,27 @@
 	use yii\helpers\Html;
 	use kartik\widgets\Select2;
 	use yii\bootstrap\Modal;
+	use kartik\typeahead\TypeaheadBasic;
 	//put jquery here
-$this->registerJsFile('/econs/frontend/web/js/jquery.js');
 
 $this->title = 'Survey | First Part';
 	/*DELETE IT LATER*/
 	//refresh problem
+$language_data = [
+	'English' => 'English',
+	'Malaysian' => 'Malaysian',
+	'Mandarin' => 'Mandarin',
+	'Chinese' => 'Chinese',
+	'Indonesian' => 'Indonesian',
+	'Japanese' => 'Japanese',
+	'Arabic' => 'Arabic'
+];
+
+$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');
 
 //$background_link = Yii::$app->request->baseUrl . '/img/background-title.png';
 ?>
+
 
 <?php
     Modal::begin([
@@ -176,14 +188,13 @@ $this->title = 'Survey | First Part';
 
 						</div>
 						<div class="col-md-6">
-							<label> If yes,</label>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($model, 'hour_week')->textInput(['id' => 'hour_week', 'type' => 'number', 'placeholder' => 'Hour/Week', 'disabled' => true])->label(false)?>
+									<?= $form->field($model, 'hour_week')->textInput(['id' => 'hour_week', 'type' => 'number', 'placeholder' => 'Hour/Week', 'disabled' => true])->label("hours/week")?>
 								</div>
 
 								<div class="col-md-6">
-									<?= $form->field($model, 'part_time_rate')->textInput(['id' => 'part_time_rate', 'type' => 'number', 'placeholder' => 'rate/hour(SGD)', 'disabled' => true])->label(false)?>
+									<?= $form->field($model, 'part_time_rate')->textInput(['id' => 'part_time_rate', 'type' => 'number', 'placeholder' => 'rate/hour(SGD)', 'disabled' => true])->label("rate/hour (in SGD)")?>
 								</div>
 							</div>
 
@@ -233,8 +244,7 @@ $this->title = 'Survey | First Part';
 						</div>
 
 						<div class="col-md-4">
-							<label>If yes,</label>
-							<?= $form->field($model, 'other_hobbies')->label(false)->textInput(['id' => 'otherHobbies' ,'placeholder' => "Other hobbies", 'disabled' => true])?>
+							<?= $form->field($model, 'other_hobbies')->label("Your other hobbies")->textInput(['id' => 'otherHobbies' ,'placeholder' => "Other hobbies", 'disabled' => true])?>
 						</div>
 
 						<div class="col-md-12">
@@ -260,7 +270,12 @@ $this->title = 'Survey | First Part';
 					<div class="col-md-12">
 						<div class="col-md-4">
 							<!-- User First Language-->
-							<?= $form->field($model, 'user_first_language')->label("What is the language you are most comfortable speaking to friends?")?>
+							<?= $form->field($model, 'user_first_language')->widget(TypeaheadBasic::classname(), [
+							'data' => $language_data,
+							'pluginOptions' => ['highlight' => true],
+							'options' => ['placeholder' => 'Your First Language	 ...'],
+							]);
+							?>
 						</div>
 
 						<div class="col-md-4">
@@ -289,7 +304,6 @@ $this->title = 'Survey | First Part';
 
 						<div class="col-md-4">
 
-							<label> If yes,</label>
 
 							<?= $form->field($model, 'hall_number')->widget(Select2::className(), [
 								'data' => [1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 =>'7', 8=> '8',
@@ -301,7 +315,7 @@ $this->title = 'Survey | First Part';
 								'pluginOptions' => [
 									'allowClear' => true
 								],
-							])->label(false); ?>
+							])->label("Hall number"); ?>
 
 
 

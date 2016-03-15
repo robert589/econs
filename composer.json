@@ -25,10 +25,9 @@
         "mdmsoft/yii2-admin": "~2.2",
         "sibilino/yii2-dygraphswidget": "*",
         "phpoffice/phpexcel": "*",
-        "kartik-v/yii2-popover-x": "*"
-
-
-
+        "kartik-v/yii2-popover-x": "*",
+        "kartik-v/yii2-dialog" : "*",
+        "kartik-v/yii2-widget-typeahead": "*"
 
     },
     "require-dev": {

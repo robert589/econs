@@ -4,6 +4,7 @@
 	use yii\helpers\Html;
 
 	$this->title = 'Survey | Third Part';
+$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');
 
 ?>
 

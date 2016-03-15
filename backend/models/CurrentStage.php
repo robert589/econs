@@ -6,6 +6,11 @@ use yii\db\ActiveRecord;
 
 
 class CurrentStage extends ActiveRecord{
+
+    const PART_ONE = 1;
+    const PART_TWO_STAGE_ONE  =2;
+    const PART_TWO_STAGE_TWO = 3;
+    const REPORT = 4;
     public static function tableName()
     {
         return 'current_stage';

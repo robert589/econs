@@ -96,6 +96,8 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+    <?php $this->registerJsFile(Yii::$app->request->baseUrl. '/../backend/web/js/script.js'); ?>
+
 </div>
 
 <footer class="footer">
@@ -105,6 +107,7 @@ AppAsset::register($this);
         <p class="pull-right"><?= "All Copyright reserved" ?></p>
     </div>
 </footer>
+
 
 <?php $this->endBody() ?>
 </body>

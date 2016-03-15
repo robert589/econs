@@ -62,8 +62,8 @@ class EmailForm extends Model{
             $email = $user['email'];
 
             $password = User::decryptIt($user['password_hash']);
-
             $this->description = str_replace(':username', $user['username'], $this->description);
+            $this->description = str_replace(':name', $user['name'], $this->description);
             $this->description = str_replace(':password', $password, $this->description);
 
             $messages = Yii::$app->mailer->compose()

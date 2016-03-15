@@ -2,6 +2,8 @@
     use kartik\widgets\ActiveForm;
     use yii\helpers\Html;
 $this->title="Survey | Five";
+$this->registerJsFile(Yii::$app->request->baseUrl . '/frontend/web/js/jquery.js');
+
 ?>
 
 <div class="col-md-9" id="containerer">

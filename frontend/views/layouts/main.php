@@ -12,12 +12,14 @@ use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 
+
 AppAsset::register($this);
 
 $type = "default";
 $item = "home";
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage();
+?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
@@ -46,40 +48,6 @@ $item = "home";
 
     ];
 
-    $menuItems[] = ['label' => 'All Survey Parts',
-                    'items' => [
-                         [
-                             'label' => 'Personal Information',
-                             'url' => Yii::$app->request->baseUrl . '/partone/one'
-                         ],
-                        [
-                            'label' => 'Friendship Survey',
-                            'url' => Yii::$app->request->baseUrl . '/partone/two'
-                        ],
-                        [
-                            'label' =>'Personality',
-                            'url' => Yii::$app->request->baseUrl . '/partone/three'
-                        ],
-                        [
-                            'label' =>'Lifestyle',
-                            'url' => Yii::$app->request->baseUrl . '/partone/four'
-                        ],
-                        [
-                            'label' =>'Holt and Laury Survey',
-                            'url' => Yii::$app->request->baseUrl . '/partone/five'
-                        ],
-                        '<li class="divider"></li>',
-
-                        [
-                            'label' =>'Game 1 Play',
-                            'url' => Yii::$app->request->baseUrl . '/parttwo/stage1'
-                        ],
-                        [
-                            'label' =>'Game 2 Play',
-                            'url' => Yii::$app->request->baseUrl . '/parttwo/stage2'
-                        ],
-                    ]
-    ];
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => Yii::$app->request->baseUrl . '/site/login'];
@@ -97,6 +65,7 @@ $item = "home";
     NavBar::end();
     ?>
 
+
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -105,7 +74,9 @@ $item = "home";
 
 
             <?= $content ?>
+
     </div>
+
 </div>
 
 

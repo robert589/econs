@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use backend\models\CurrentStage;
 use Yii;
 use common\models\StageOne;
 use yii\web\Controller;
@@ -20,35 +21,45 @@ class ReportController extends Controller
     public function actionIndex()
     {
         if(!\Yii::$app->user->isGuest){
-            $user_id = Yii::$app->user->getId();
-            //get total matched friends
-            $total_matched_friends = Relation::getMatchedFriends($user_id);
+            if(CurrentStage::getCurrentStage() == CurrentStage::REPORT){
+                $user_id = Yii::$app->user->getId();
+                //get total matched friends
+                $total_matched_friends = Relation::getMatchedFriends($user_id);
 
-            //get total stage one payoff
-            $total_stage_one_payoff = StageOne::getTotalPayoffFromStage1($user_id);
+                //get total stage one payoff
+                $total_stage_one_payoff = StageOne::getTotalPayoffFromStage1($user_id);
 
 
-            //get user current status
-            $user = new User();
-            $user_current_status = $user->getCurrentStatus();
+                //get user current status
+                $user = new User();
+                $user_current_status = $user->getCurrentStatus();
 
-            //check whether user has finished it
-            if($user_current_status > ParttwoController::FINISH){
-                $finish = true;
+                //check whether user has finished it
+                if($user_current_status > ParttwoController::FINISH){
+                    $finish = true;
+                }
+                else{
+                    $finish = false;
+                }
+
+                return $this->render('index', ['total_matched_friends' => $total_matched_friends,
+                    'finish' => $finish,
+                    'total_stage_one_payoff' => $total_stage_one_payoff]);
             }
             else{
-                $finish = false;
+                return $this->redirect(Yii::$app->request->baseUrl . '/report/prohibited');
             }
 
-            return $this->render('index', ['total_matched_friends' => $total_matched_friends,
-                                                'finish' => $finish,
-                                                'total_stage_one_payoff' => $total_stage_one_payoff]);
         }
         else{
             return $this->redirect(Yii::$app->request->baseUrl . '/site/login');
         }
 
 
+    }
+
+    public function actionProhibited(){
+        return $this->render('prohibited');
     }
 
 
